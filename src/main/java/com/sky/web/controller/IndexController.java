@@ -18,14 +18,21 @@ public class IndexController {
 
 	private String INDEX_PAGE = "index";
 
+	private String HOME_PAGE = "home";
+
 	/*
 	 * ============== View =======================================
 	 */
-	@RequestMapping(value = { "/*" })
+	@RequestMapping(value = { "/" })
 	public String index(HttpSession session, Model model) {
 
 		String now = new SimpleDateFormat("yyyyMMdd HHmmss").format(new Date());
 		logger.info(now);
 		return INDEX_PAGE;
+	}
+
+	@RequestMapping(value = { "/home" })
+	public String home(Model model) {
+		return HOME_PAGE;
 	}
 }
