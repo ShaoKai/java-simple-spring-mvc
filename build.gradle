@@ -3,6 +3,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse'
 
 // Uses JDK 7
+version = '1.0'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
@@ -22,36 +23,36 @@ task copyToLib(type: Copy) {
 
 eclipse.jdt.file {
 	withProperties { properties -> 
-		properties.put('org.eclipse.jdt.core.formatter.lineSplit', '120')
-		
-		// def formatter = new XmlSlurper().parse('src/main/resources/formatter.xml')
-
-		// formatter.profile.setting.each {
-			// properties.put(it.@id as String, it.@value as String)
-		// }		
+		properties.put('org.eclipse.jdt.core.formatter.lineSplit', '120')	
 	}
-
 }
 
+configurations {
+    // exclude commons-logging, log4j, and j.u.logging - we use slf4j and logback
+    // http://spring-java-ee.posterous.com/gradle-build-for-spring-framework-and-slf4j-w
+    all*.exclude group: 'commons-logging'
+}
 dependencies {
-    compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
-    compile group: 'log4j', name: 'log4j', version: '1.2.16'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1'
-    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.6.1'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
+	providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
     
-	compile 'ch.qos.logback:logback-classic:1.1.2'
-	compile 'org.apache.commons:commons-lang3:3.1'
+	// Logging
+    compile 'org.slf4j:slf4j-api:1.7.2'
+
+    runtime 'ch.qos.logback:logback-classic:1.0.9', // we use logback
+            'org.slf4j:jcl-over-slf4j:1.7.2',       // and the commons-logging bridge
+            'org.slf4j:log4j-over-slf4j:1.7.2'      // and the log4j bridge
+	
+	// Spring
 	compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
-	compile 'org.springframework:spring-context-support:4.0.6.RELEASE'
+	compile 'org.springframework:spring-orm:4.0.6.RELEASE'
+	compile 'org.springframework:spring-context-support:4.0.6.RELEASE' 
 	compile 'org.springframework.security:spring-security-core:3.2.5.RELEASE'
 	compile 'org.springframework.security:spring-security-config:3.2.5.RELEASE'
 	compile 'org.springframework.security:spring-security-web:3.2.5.RELEASE'
-	compile 'jstl:jstl:1.2'
+
+	// View
 	compile 'org.apache.velocity:velocity:1.7'
    	compile 'org.apache.velocity:velocity-tools:2.0'
    
-	providedCompile 'javax.servlet:servlet-api:2.5'
-	
 
 }

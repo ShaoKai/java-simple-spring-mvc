@@ -9,8 +9,9 @@
 
 
 	<logger name="com.sky.web.controller" level="debug" />
+	<logger name="org.springframework.security.web.authentication.rememberme" level="debug" />
 
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>
 

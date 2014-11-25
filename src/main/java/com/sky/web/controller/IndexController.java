@@ -25,14 +25,14 @@ public class IndexController {
 	 */
 	@RequestMapping(value = { "/" })
 	public String index(HttpSession session, Model model) {
-
 		String now = new SimpleDateFormat("yyyyMMdd HHmmss").format(new Date());
 		logger.info(now);
 		return INDEX_PAGE;
 	}
 
 	@RequestMapping(value = { "/home" })
-	public String home(Model model) {
+	public String home(HttpSession session, Model model) {
+		logger.info("Home");
 		return HOME_PAGE;
 	}
 }
